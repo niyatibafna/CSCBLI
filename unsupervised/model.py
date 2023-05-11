@@ -31,10 +31,10 @@ class Discriminator(nn.Module):
         print("loading embedding...")
         self.context_src_dico, context_src_emb = self.read_txt_embeddings(params.context_src_emb_path, params.src_lang, size=size)
         self.context_tgt_dico, context_tgt_emb = self.read_txt_embeddings(params.context_tgt_emb_path, params.tgt_lang, size=size)
-        self.context_src_embed = nn.Embedding(len(self.context_src_dico), 1024)
+        self.context_src_embed = nn.Embedding(len(self.context_src_dico), 768)
         self.context_src_embed.weight.data.copy_(context_src_emb)
         self.context_src_embed.weight.requires_grad = False
-        self.context_tgt_embed = nn.Embedding(len(self.context_tgt_dico), 1024)
+        self.context_tgt_embed = nn.Embedding(len(self.context_tgt_dico), 768)
         self.context_tgt_embed.weight.data.copy_(context_tgt_emb)
         self.context_tgt_embed.weight.requires_grad = False
         print("loading embedding successfully")
@@ -42,16 +42,16 @@ class Discriminator(nn.Module):
         print("loading embedding...")
         self.vecmap_context_src_dico, vecmap_context_src_emb = self.read_txt_embeddings(params.vecmap_context_src_emb_path, params.src_lang)
         self.vecmap_context_tgt_dico, vecmap_context_tgt_emb = self.read_txt_embeddings(params.vecmap_context_tgt_emb_path, params.tgt_lang)
-        self.vecmap_context_src_embed = nn.Embedding(len(self.vecmap_context_src_dico), 1024)
+        self.vecmap_context_src_embed = nn.Embedding(len(self.vecmap_context_src_dico), 768)
         self.vecmap_context_src_embed.weight.data.copy_(vecmap_context_src_emb)
         self.vecmap_context_src_embed.weight.requires_grad = False
-        self.vecmap_context_tgt_embed = nn.Embedding(len(self.vecmap_context_tgt_dico), 1024)
+        self.vecmap_context_tgt_embed = nn.Embedding(len(self.vecmap_context_tgt_dico), 768)
         self.vecmap_context_tgt_embed.weight.data.copy_(vecmap_context_tgt_emb)
         self.vecmap_context_tgt_embed.weight.requires_grad = False
         print("loading embedding successfully")
         '''
-        self.linear1 = nn.Linear(1024, 300)
-        self.linear2 = nn.Linear(1024, 300)
+        self.linear1 = nn.Linear(768, 300)
+        self.linear2 = nn.Linear(768, 300)
         self.linear3 = nn.Linear(300, 300)
         self.linear4 = nn.Linear(300, 300)
         # dropout
@@ -68,10 +68,10 @@ class Discriminator(nn.Module):
         print("loading embedding...")
         self.vecmap_context_src_dico, vecmap_context_src_emb = self.read_txt_embeddings(path1, src)
         self.vecmap_context_tgt_dico, vecmap_context_tgt_emb = self.read_txt_embeddings(path2, tgt)
-        self.vecmap_context_src_embed = nn.Embedding(len(self.vecmap_context_src_dico), 1024)
+        self.vecmap_context_src_embed = nn.Embedding(len(self.vecmap_context_src_dico), 768)
         self.vecmap_context_src_embed.weight.data.copy_(vecmap_context_src_emb)
         self.vecmap_context_src_embed.weight.requires_grad = False
-        self.vecmap_context_tgt_embed = nn.Embedding(len(self.vecmap_context_tgt_dico), 1024)
+        self.vecmap_context_tgt_embed = nn.Embedding(len(self.vecmap_context_tgt_dico), 768)
         self.vecmap_context_tgt_embed.weight.data.copy_(vecmap_context_tgt_emb)
         self.vecmap_context_tgt_embed.weight.requires_grad = False
         print("loading embedding successfully")

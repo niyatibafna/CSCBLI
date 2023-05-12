@@ -77,15 +77,21 @@ def test(model_path, dict_path, output_path):
 
         try:
             t_l = [s_tgt_w2i[wt] for wt in s2t_dict[w]]
-            c_l.append(c_src_w2i[w])
-            s_l.append(s_src_w2i[w])
-            s_w.append(w)
+            if w in s_src_w2i and w in c_src_w2i:
+                s_l.append(s_src_w2i[w])
+                c_l.append(c_src_w2i[w])
+                s_w.append(w)
+            else:
+                oov += 1
+                pass
         except:
-            oov += 1
             pass
     # pdb.set_trace()
+
     static_src_id = torch.LongTensor(s_l)
     context_src_id = torch.LongTensor(c_l)
+
+    print("sanity check: ", static_src_id.shape, context_src_id.shape)
     '''
     static_src_id = torch.LongTensor([s_src_w2i[w] for w in src_words])
     context_src_id = torch.LongTensor([c_src_w2i[w] for w in src_words])

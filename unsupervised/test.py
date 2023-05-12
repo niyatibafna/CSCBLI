@@ -107,7 +107,7 @@ def test(model_path, dict_path, output_path):
     output_dict = dict()
 
     for i in range(len(tgt_ids)):
-        output_dict[s_w[i]] = {model.static_tgt_dico[tgt_ids[i][j].item()]:(2-j) for j in range(10)}
+        output_dict[s_w[i]] = {model.static_tgt_dico[tgt_ids[i][j].item()]:(10-j) for j in range(10)}
         for j in range(10):
             if model.static_tgt_dico[tgt_ids[i][j].item()] in s2t_dict[s_w[i]]:
                 if j == 0:

@@ -86,8 +86,8 @@ class Discriminator(nn.Module):
         context_src_emb = self.context_src_embed(context_src_id)
         # vecmap_context_src_emb = self.vecmap_context_src_embed(vecmap_context_src_id)
 
-        static_tgt_emb = self.static_tgt_embed.weight[:8000]
-        context_tgt_emb = self.context_tgt_embed.weight[:8000]
+        static_tgt_emb = self.static_tgt_embed.weight[:30000]
+        context_tgt_emb = self.context_tgt_embed.weight[:30000]
         # vecmap_context_tgt_emb = self.vecmap_context_tgt_embed.weight
 
 
@@ -110,10 +110,10 @@ class Discriminator(nn.Module):
         # sim = torch.matmul(static_src_emb, static_tgt_emb.T)
         
         # csls
-        all_src_emb = self.static_src_embed.weight[:8000]
+        all_src_emb = self.static_src_embed.weight[:30000]
         all_src_emb = all_src_emb / all_src_emb.norm(2, 1, keepdim=True).expand_as(all_src_emb)
 
-        context_src_emb = self.context_src_embed.weight[:8000]
+        context_src_emb = self.context_src_embed.weight[:30000]
         context_src_emb = torch.tanh(self.linear1(context_src_emb))
         context_src_emb = torch.tanh(self.linear3(context_src_emb))
         context_src_emb = self.norm_center_norm(context_src_emb)
@@ -201,7 +201,7 @@ class Discriminator(nn.Module):
 
     @torch.no_grad()
     def unsupervise_fintune(self, w):
-        size = 8000
+        size = 30000
         static_src_emb = self.static_src_embed.weight[:size]
         static_tgt_emb = self.static_tgt_embed.weight[:size]
 
@@ -245,18 +245,18 @@ class Discriminator(nn.Module):
         sy, ty, wy = mode.split('_')
 
         
-        static_src_emb = self.static_src_embed.weight[:8000]
-        static_tgt_emb = self.static_tgt_embed.weight[:8000]
+        static_src_emb = self.static_src_embed.weight[:30000]
+        static_tgt_emb = self.static_tgt_embed.weight[:30000]
 
         static_src_emb = static_src_emb / static_src_emb.norm(2, 1, keepdim=True).expand_as(static_src_emb)
         static_tgt_emb = static_tgt_emb / static_tgt_emb.norm(2, 1, keepdim=True).expand_as(static_tgt_emb)
 
         if ty=='orign':
-            context_src_emb = self.context_src_embed.weight[:8000]
-            context_tgt_emb = self.context_tgt_embed.weight[:8000]
+            context_src_emb = self.context_src_embed.weight[:30000]
+            context_tgt_emb = self.context_tgt_embed.weight[:30000]
         elif ty=='vecmap':
-            context_src_emb = self.vecmap_context_src_embed.weight[:8000]
-            context_tgt_emb = self.vecmap_context_tgt_embed.weight[:8000]
+            context_src_emb = self.vecmap_context_src_embed.weight[:30000]
+            context_tgt_emb = self.vecmap_context_tgt_embed.weight[:30000]
         # 加入dropout
         context_src_emb = self.dropout(context_src_emb)
         context_tgt_emb = self.dropout(context_tgt_emb)
@@ -270,8 +270,8 @@ class Discriminator(nn.Module):
         sim -= self.topk_mean(sim, k=10).unsqueeze(-1) / 2 + self.topk_mean(sim.T, k=10).unsqueeze(0) / 2
 
         if wy == 'w':
-            vecmap_context_src_emb = self.vecmap_context_src_embed.weight[:8000]
-            vecmap_context_tgt_emb = self.vecmap_context_tgt_embed.weight[:8000]
+            vecmap_context_src_emb = self.vecmap_context_src_embed.weight[:30000]
+            vecmap_context_tgt_emb = self.vecmap_context_tgt_embed.weight[:30000]
         '''
         self.matrix_s()
         vecmap_context_src_emb = vecmap_context_src_emb / vecmap_context_src_emb.norm(2, 1, keepdim=True).expand_as(vecmap_context_src_emb)

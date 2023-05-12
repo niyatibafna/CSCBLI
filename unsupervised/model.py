@@ -81,12 +81,13 @@ class Discriminator(nn.Module):
     @torch.no_grad()
     def test_all_word(self, static_src_id, context_src_id, vecmap_context_src_id=None):
         
+        print(static_src_id.shape, context_src_id.shape)
         static_src_emb = self.static_src_embed(static_src_id)
         context_src_emb = self.context_src_embed(context_src_id)
         # vecmap_context_src_emb = self.vecmap_context_src_embed(vecmap_context_src_id)
 
-        static_tgt_emb = self.static_tgt_embed.weight
-        context_tgt_emb = self.context_tgt_embed.weight
+        static_tgt_emb = self.static_tgt_embed.weight[:8000]
+        context_tgt_emb = self.context_tgt_embed.weight[:8000]
         # vecmap_context_tgt_emb = self.vecmap_context_tgt_embed.weight
 
 
@@ -103,15 +104,16 @@ class Discriminator(nn.Module):
         context_tgt_emb = torch.tanh(self.linear2(context_tgt_emb))
         context_tgt_emb = torch.tanh(self.linear4(context_tgt_emb))
 
+        print(static_src_emb.shape, static_tgt_emb.shape, context_src_emb.shape, context_tgt_emb.shape)
         sim = torch.matmul(static_src_emb + self.w1 * self.norm_center_norm(context_src_emb), static_tgt_emb.T + (self.w2* self.norm_center_norm(context_tgt_emb)).T)
         
         # sim = torch.matmul(static_src_emb, static_tgt_emb.T)
         
         # csls
-        all_src_emb = self.static_src_embed.weight
+        all_src_emb = self.static_src_embed.weight[:8000]
         all_src_emb = all_src_emb / all_src_emb.norm(2, 1, keepdim=True).expand_as(all_src_emb)
 
-        context_src_emb = self.context_src_embed.weight
+        context_src_emb = self.context_src_embed.weight[:8000]
         context_src_emb = torch.tanh(self.linear1(context_src_emb))
         context_src_emb = torch.tanh(self.linear3(context_src_emb))
         context_src_emb = self.norm_center_norm(context_src_emb)
